@@ -1,13 +1,19 @@
 git使用教程
-课程话网易云上有推荐课程：http://study.163.com/course/courseMain.htm?courseId=1003384004
+网易云上有推荐课程：http://study.163.com/course/courseMain.htm?courseId=1003384004
 
 安装：
 git for windows:https://gitforwindows.org/
 TortoiseGit:https://tortoisegit.org/download/(可安装中文包)
 
 
-首先简要介绍一下如何将本地文件上传到github上
-	对于一个文件我们想要上传到github上，首先要创建仓库，右键git 在这里创建版本库
-	创建到版本库之后要将文件内容提交到master,右键git提交->"master"
-	然后利用可视化管理工具TortoiseGit将内容push到github平台上，在这之前需要设置TortoiseGit，主要设置github用户信息和邮箱信息
-	push时需要填写github上仓库的HTTPS
+1.首先简要介绍一下如何创建项目仓库并上传到github上
+	设置TortoiseGit：主要设置github用户信息和邮箱信息
+	对于一个文件我们想要上传到github上，首先要创建本地仓库，选中文件夹 右键git 在这里创建版本库
+	创建到版本库之后要将文件内容提交到master,右键git提交->"master"，即将该文件项目上传到我们本地仓库的主分支下
+	将项目上传到github上之前，要在github上创建仓库，注意这个过程中如果某一个项目有更改，双击添加的文件可以看到更改的信息
+	然后通过TortoiseGit图形化的方式，将commit到本地仓库的项目上传到github上，push时需要填写github上仓库的HTTPS
+	备注：上传之后，如果对项目内容有更改，则需要重新commit到本地仓库，然后再push至github上
+	
+
+2.介绍一下如何使用github上的pull-request功能
+	由于本人主要使用python语言，所以这里主要利用pycharm来讲解如何folk github
