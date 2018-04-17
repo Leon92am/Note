@@ -7,4 +7,7 @@ TortoiseGit:https://tortoisegit.org/download/(可安装中文包)
 
 大家管理python代码的话可以用pycharm,具体使用方法，参考博客：https://www.cnblogs.com/yigehundan/p/6026925.html
 
-
+对于一个文件我们想要上传到github上，首先要创建仓库，右键git 在这里创建版本库
+创建到版本库之后要将文件内容提交到master,右键git提交->"master"
+然后利用可视化管理工具TortoiseGit将内容push到github平台上，在这之前需要设置TortoiseGit，主要设置github用户信息和邮箱信息
+push过程中需要填写github上仓库的HTTPS
