@@ -17,7 +17,8 @@ TortoiseGit:https://tortoisegit.org/download/(可安装中文包)
 	
 
 2.介绍一下如何使用github上的pull-request功能
-	首先介绍一下pull request是什么功能？是这样的，大家知道，github是一个协同合作的平台，可以看到别人正在做的项目，或者几个人一起共同合作完成一个项目，如果某人想对别人创建的项目做更改，是不可能直接对仓库中的版本做更改的（不然没法进行版本管理），再将项目push(上传)至github上自己的远程仓库主分支下,然后就可以在github上发起一个pull request,请求项目的原作者merge(合并)你fix后的内容，原作者如果觉得是对的，就会将你fix后的内容merge到他的项目中，这样就可以大家一起协同完成一个项目了。
+	首先介绍一下pull request是什么功能？是这样的，大家知道，github是一个协同合作的平台，可以看到别人正在做的项目，	或者几个人一起共同合作完成一个项目，如果某人想对别人创建的项目做更改，是不可能直接对仓库中的版本做更改的（不然没法进行版本管理），
+	再将项目push(上传)至github上自己的远程仓库主分支下,然后就可以在github上发起一个pull request,请求项目的原作者merge(合并)你fix后的内容，原作者如果觉得是对的，就会将你fix后的内容merge到他的项目中，这样就可以大家一起协同完成一个项目了。
 	
 	由于本人主要使用python语言，所以这里主要利用pycharm来讲解pull request步骤
 	step1:首先在github上fork“甲方”的项目python-note（https://github.com/zyanchixia/python-note），这时候在自己的远端仓库中也会拷贝到项目python-note
