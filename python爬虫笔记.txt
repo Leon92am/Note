@@ -1,0 +1,122 @@
+python 2.7爬虫
+
+urllib与urlib2模块(在python3中这两个模块被合并为一个模块urllib)
+	Python的urllib和urllib2模块都做与请求URL相关的操作，但他们提供不同的功能。
+	他们两个最显着的差异如下：
+	　　urllib2可以接受一个Request对象，并以此可以来设置一个URL的headers，但是urllib只接收一个URL。这意味着，你不能伪装你的用户代理字符串，并提供表单信息等。
+	　　urllib模块可以提供进行urlencode的方法，该方法用于生成form data表单提交申请，urllib2的不具有这样的功能。
+		这就是urllib与urllib2经常在一起使用的原因。
+		通常我们用urllib2.Request生成Request对象，当该对象中data没有实例化，则为向服务器端发出Get消息，否则为Post消息，Post消息向服务器提供表单信息。
+		在我们爬网页上的数据时，会向服务器发送请求，服务器会对该消息进行判断，服务器会根据请求消息的header判断该请求时来自于代码还是浏览器，因此我们在提交请求时要自定义header，以免被服务器识别为爬虫代码，自定义header有两种方法
+			1.先实例化一个Request通过Request.add_header方法添加head
+			2.先通过字典创建一个head,urllib2.Request()实例化时将head作为参数传入
+			
+
+代理：服务器会对同一ip的访问频率进行监控，如果访问频率高，则会判定为非网页访问，解决此方案可以以通过sleep函数，降低频率还有一种方法就是使用代理，利用代理可以将自己的访问提交给代理，服务器看到的是代理的ip,这样就可以使用很多个代理来访问
+	  步骤
+		1.参数是一个字典{"类型":"ip：端口号"}
+		2.定制、创建一个opener
+		3.安装opener
+	python2中urllib2.ProxyHandler(代理http)与urllib2.build_opener(),然后通过urllib2.install_opener()安装代理即可利用代理ip访问服务器
+	
+
+正则表达式
+Re模块
+
+	re.search()字符串匹配
+	  \d表示匹配0-9的数字
+	  []表示匹配中括号中的字符，例如[a-e]，[0-9]表示匹配范围a~e的字母，0~9的数字
+	  {n}表示匹配大括号前面的字符重复次数n次
+	  {n1-n2}表示匹配大括号前面的字符重复次数n1次到n2次
+	  |表示或，匹配前面的字符后者后面的字符
+	匹配ip地址
+	re.search(r'(([01]{0,1}\d{0,1}\d|2[0-4]\d|25[0-5])\.){3}([01]{0,1}\d{0,1}\d|2[0-4]\d|25[0-5])','92.168.1.1')
+	 
+	元字符
+	^ $  []字符类  {}重复次数  .  ()子组  *出现0到多次 +出现1到多次  ？出现0或者1次  在表示重复的字符后面加上问好表示非贪婪模式例如<.+?>
+	\转义字符
+	特殊字符
+		\序号表示数字，如果前面是子组则表示引用对应数字序号的子组
+		\A默认情况与^一样，用于定位
+		\Z默认情况与$一样，用于定位
+		\b 匹配一个单词边界，单词被定义为字母数字或下划线字符
+		\B 匹配非单词边界
+		\d 匹配0-9的数字
+		\D匹配任何非unicode的数字
+	re.compile()编译正则表达式
+
+	
+urllib2.URLError捕获异常
+
+Scrapy	
+	获取网络数据结构的框架
+	STEP1:创建一个Scrapy项目
+	STEP2:定义Item容器，是保存爬取到的数据的容器，其使用方法和Python字典类似，并且提供了额外保护机制来避免拼写错误导致的未定义字段错误
+	STEP3:编写爬虫类Spider，包含一个用于下载的初始URL，然后是如何跟进网页中的链接以及如何分析页面中的内容还有提取生成item的方法
+	
+	STEP4:存储内容 之前我们是使用正则表达式，在Scrapy中是使用一种基于XPath和CSS的表达式机制：Scrapy Selectors
+		XPath是一门在网页中查找特定信息的语言，所以用XPath来筛选数据，要比使用正则表达式容易些
+	
+	
+	具体步骤：
+	1.在终端（cmd命令窗口）中新建一个scarpy 项目，python -m scrapy startproject tutorial
+	2.定义item字段
+	3.在项目文件的spiders中新建一个spider,例如dmoz_spider.py
+	    import scarpy
+		class DmozSpider(scrapy.Spider): #定义DmozSpider类继承于scrapy.Spider类
+			name="dmoz"#爬虫名字
+			allowed_domains=["http://www.chinadmoz.org/"]#爬虫范围
+			start_urls=["http://www.chinadmoz.org/industry/1/",
+			"http://www.chinadmoz.org/industry/3/"
+			]#爬虫url
+		def parse(self,response):#解析获得页面
+			获取response，解析获得想要的字段传给item
+	4.修改pipelineha.py文件，定义item字段如何存储，存储格式有xml,json,jsonline,csv
+	5.在命令终端 python -m scrapy crawl dmoz
+	
+	
+	Scrapy shell "url" 模拟发送请求，将得到一个response
+	Selector内置XPath和CSS Selector表达式机制
+		有四个基本的方法：xpath(),extract(),css(),re()
+		
+利用Scrapy爬网站图片，主要利用Scrapy重写ImagePipeline组件
+	STEP1:新建一个爬虫项目，python -m scrapy startproject Pic
+	STEP2:定义items.py
+		img_urls = scrapy.Field()
+		images = scrapy.Field()
+		img_path = scrapy.Field()
+	STEP3:编写爬虫代码，eg：picSpider.py
+		主要是为了获取图片下载地址
+		item=DouyuItem()
+		item['img_urls']=response.xpath('//*[@id="wrapper"]/div/div/div/a/img/@data-original').extract()
+		yield item
+	STEP4:编写pipline管道文件,这里主要利用Scrapy框架下的ImagesPipeline下载图片,需要重载get_media_requests()和item_completed()这两个函数。
+		from scrapy.pipelines.images import ImagesPipeline
+		from scrapy.exceptions import DropItem
+		from scrapy import Request
+		from scrapy import log
+
+		class DouyuPipeline(ImagesPipeline):
+			#def process_item(self, item, spider):
+				#return item
+			def get_media_requests(self, item, info):
+				for image_url in item['img_urls']:
+					#self.default_headers['referer'] = image_url
+					yield Request(image_url)#将下载地址传给下载器
+			def item_completed(self, results, item, info):
+				image_paths = [x['path'] for ok, x in results if ok]
+				if not image_paths:
+					raise DropItem("Item contains no images")
+				item['image_paths'] = image_paths#将路径保存在item中返回
+				return item
+	STEP5：在settings.py中设置条件和属性，包括图片下载地址和过期天数
+	
+	
+	具体教程：https://segmentfault.com/a/1190000009597329
+	
+		
+	
+	
+		
+	
+	
