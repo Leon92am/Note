@@ -1,0 +1,30 @@
+
+CUDA并行的基本概念（主要看第1/4/7章）
+http://blog.csdn.net/zkl99999/article/details/50708184 
+
+
+numbapro的api
+https://docs.continuum.io/numbapro/index-archived
+
+numba的api
+http://numba.pydata.org/index.html
+没有找到专门讲python+cuda的书
+
+硬件要求：显卡是N卡，即英伟达显卡，显卡计算能力肯定是越高越好
+
+环境搭建：
+安装anaconda 64位 
+安装cuda 7.5 
+安装arcgis background geoprocessing 64位python 
+将上面安装位置下的python27中的ArcGISx64 10.4\Lib\site-packages目录下的DTBGGP64.pth复制到Anaconda中对应位置文件夹下
+ps:这里装ARCGIS的background geoprocessing 64位python,是因为我项目中需要arcgis提供的arcpy包，如果大家不需要用ARCGIS的话，可以安装其它版本的64位python
+
+安装完成后在cmd命令窗口中：
+conda update conda
+conda install accelerate
+conda install numbapro
+
+检查：
+在python命令窗口中import numbapro/import numba
+import acrpy
+numba.cuda.api.detect()#检测GPU计算能力
