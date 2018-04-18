@@ -1,19 +1,30 @@
 git使用教程
-网易云上有推荐课程：http://study.163.com/course/courseMain.htm?courseId=1003384004
-
+网易云上有入门推荐课程：http://study.163.com/course/courseMain.htm?courseId=1003384004
+	备注：该课程只讲解了一些操作，很多东西对于新手来说知其然不知其所以然，下面主要从个人使用的角度来讲解如何使用github,如有错误的地方，望不吝指教。
+	
 安装：
 git for windows:https://gitforwindows.org/
 TortoiseGit:https://tortoisegit.org/download/(可安装中文包)
 
 
-1.首先简要介绍一下如何创建项目仓库并上传到github上
-	设置TortoiseGit：主要设置github用户信息和邮箱信息
-	对于一个文件我们想要上传到github上，首先要创建本地仓库，选中文件夹 右键git 在这里创建版本库
-	创建到版本库之后要将文件内容提交到master,右键git提交->"master"，即将该文件项目上传到我们本地仓库的主分支下
-	将项目上传到github上之前，要在github上创建仓库，注意这个过程中如果某一个项目有更改，双击添加的文件可以看到更改的信息
-	然后通过TortoiseGit图形化的方式，将commit到本地仓库的项目上传到github上，push时需要填写github上仓库的HTTPS
-	备注：上传之后，如果对项目内容有更改，则需要重新commit到本地仓库，然后再push至github上
+1.首先简要介绍一下如何创建本地仓库并上传到github上的远端仓库
+	设置TortoiseGit：主要设置github用户信息和邮箱信息，这个相当于我们登录自己的github账户
+	step1:对于一个文件我们想要上传到github上，首先要创建本地仓库，选中文件夹 右键git 在这里创建版本库
+	step2:创建到版本库之后要将文件内容提交到本地仓库的master,右键git提交->"master"，即将该文件上传到我们本地仓库的主分支（master）下
+	step3:将项目上传到github上之前，要在github上创建仓库，注意这个上传过程中如果某一个项目有更改，双击添加的文件可以对比看到更改的信息
+	step4:然后通过TortoiseGit图形化的方式，将commit到本地仓库的项目上传到github上的远程仓库，push时需要填写github上仓库的HTTPS
+	备注：上传之后，如果对项目内容有更改，则需要重新commit到本地仓库，然后再push至github上，更改信息可以在commit时对比看到
 	
 
 2.介绍一下如何使用github上的pull-request功能
-	由于本人主要使用python语言，所以这里主要利用pycharm来讲解如何folk github
+	首先介绍一下pull request是什么功能？是这样的，大家知道，github是一个协同合作的平台，可以看到别人正在做的项目，或者几个人一起共同合作完成一个项目，如果某人想对别人创建的项目做更改，是不可能直接对仓库中的版本做更改的（不然没法进行版本管理），再将项目push(上传)至github上自己的远程仓库主分支下,然后就可以在github上发起一个pull request,请求项目的原作者merge(合并)你fix后的内容，原作者如果觉得是对的，就会将你fix后的内容merge到他的项目中，这样就可以大家一起协同完成一个项目了。
+	
+	由于本人主要使用python语言，所以这里主要利用pycharm来讲解pull request步骤
+	step1:首先在github上fork“甲方”的项目python-note（https://github.com/zyanchixia/python-note），这时候在自己的远端仓库中也会拷贝到项目python-note
+	step2:然后Clone and download自己远端仓库中的项目至本地仓库,打开pycharm新建一个项目文件，打开时候选择Git for version control,在地址栏填入项目python-note的https地址(即github上clones with https的url)，即可将项目文件下载到本地仓库
+	step3：这里我做的更改是增加一个" scapy爬虫框架.py "文件 ，新建.py文件后，会弹出对话框是否将新建文件add到git仓库中，选择yes
+	step4:可以在 scapy爬虫框架.py 写自己想写的内容，更改保存后，在pycharm上选择项目文件python－note右键,Git－commit repositories会出现commit changes窗口，提交更改页面会弹出更改的信息，可以在commit message里填写这次更改的信息说明，选择commit and push即向本地仓库提交更新后的版本并push至github的远程仓库主分支下
+	step5:上传完之后可以在github远程仓库上看到该项目更改的内容，并将其pull request,即让“甲方”看到你修改的内容，如果“甲方”review后认同你修改的内容，既可以merge到甲方的仓库主分支下，更新原来的版本
+	step6:在github上自己账号下的python-note仓库下，可以new pull requset，即向“甲方”仓库的主分支提出请求合并
+
+3.
