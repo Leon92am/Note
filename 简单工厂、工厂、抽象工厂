@@ -1,0 +1,221 @@
+#这里以支付方法介绍简单工厂，首先我们定义一个支付抽象基类，然后创建了支付宝支付与微信支付之类，我们在实例化子类时，在简单工厂里通过if else或者case
+判断实例化的对象类型。那么如果我们新增一个支付子类，例如银行支付的话，那么我们就需要新建一个银行支付子类，然后修改简单工厂里的if else或者case，新增
+一个判断，如果是银行的话，就实例化银行支付。具体实现步骤如下
+coding:utf-8
+class Payment(object):
+    def __init__(self):
+        pass
+
+    def give_money(self):
+        pass
+
+    def give_ok(self):
+        pass
+
+class alipay(Payment):
+    def __init__(self):
+        print('支付宝ing')
+
+    def give_money(self):
+        print('支付宝支付中')
+        print('...')
+
+    def give_ok(self):
+        print('支付宝支付成功')
+
+class wxpay(Payment):
+    def __init__(self):
+        print('微信ing')
+
+    def give_money(self):
+        print('微信支付中')
+        print('...')
+
+    def give_ok(self):
+        print('微信支付成功')
+
+
+class Paymentmethod(object):#简单工厂
+    def method(self, method):
+        if method == '微信':
+            return wxpay()
+        elif method == '支付宝':
+            return alipay()
+
+
+Pay = Paymentmethod()
+Pay.method('支付宝')
+
+# 此时如果我要创建一个银行支付的话就需要新增一个子类，并修改Paymentmethod工厂类。
+class bankpay(Payment):#增加银行支付子类
+    def __init__(self):
+        print('银行ing')
+
+    def give_money(self):
+        print('银行支付中')
+        print('...')
+
+    def give_ok(self):
+        print('银行支付成功')
+class Paymentmethod(object):#修改简单工厂，破坏了闭开原则
+    def method(self, method):
+        if method == '微信':
+            return wxpay()
+        elif method == '支付宝':
+            return alipay()
+        elif method=='银行':
+            return bankpay()
+#那么在上面的简单工厂模式里，我们威力新增一个银行支付修改了工厂类里的方法，这种操作违背了设计模式里提倡的闭开原则，即对扩展开放，对修改关闭，实现热插拔。
+为了解决这个问题，提出了工厂模式，定义一个用于创建对象的接口,让子类决定实例化哪一个类,工厂方法使一个类的实例化延时到其子类，为每一个子类的实例化创建一个
+工厂方法.工厂方法模式克服了简单工厂模式违背开放-封闭原则的缺点,又保持了封装对象创建过程的优点。具体过程如下：
+#coding:utf-8
+class Payment(object):
+    def __init__(self):
+        pass
+    def give_money(self):
+        pass
+    def give_ok(self):
+        pass
+
+class IFactory(Payment):
+    def Createpayment(self):
+        pass
+
+class alipay(Payment):
+    def __init__(self):
+        print('支付宝ing')
+    def give_money(self):
+        print('支付宝支付中')
+        print('...')
+    def give_ok(self):
+        print('支付宝支付成功')
+
+
+class wxpay(Payment):
+    def __init__(self):
+        print('微信ing')
+    def give_money(self):
+        print('微信支付中')
+        print('...')
+    def give_ok(self):
+        print('微信支付成功')
+#创建支付宝支付工厂
+class alipayFactory(IFactory):
+    def Createpayment(self):
+        return alipay()
+#创建微信支付支付工厂
+class wxpayFactory(IFactory):
+    def Createpayment(self):
+        return wxpay()
+
+if __name__ == "__main__":
+    ali= alipayFactory()#创建支付宝支付
+    wx = wxpayFactory()#创建微信支付
+    #bank=bankFactory
+
+#此时，如果还想创建银行支付，则只需要创建一个银行支付子类与银行支付工厂类的方法
+class bankpay(Payment):#创建银行支付子类
+    def __init__(self):
+        print('银行ing')
+
+    def give_money(self):
+        print('银行支付中')
+        print('...')
+
+    def give_ok(self):
+        print('银行支付成功')
+
+class bankpayFactory(IFactory):#创建银行支付工厂类
+    def Createpayment(self):
+        return bankpay()
+#对于工厂模式，我们能单纯定义支付的过程，但是很多时候我们并不仅仅单方面的支付，我们还需要根据商家类型决定采用何种支付方式，那么工厂方法这种针对一个产品
+等级结构的模式就无法满足我们的要求，这时提出了抽象工厂模式，是针对的多个产品等级结构。在编程中，通常一个产品结构，表现为一个接口或者抽象类，一个抽象工厂
+类，可以派生出多个具体工厂类。每个具体工厂类可以创建多个具体产品类的实例。那么如果我们又两个商家（衣服商店与零食商店），那么我们怎么创建支付行为呢。具体
+实现过程如下：
+# coding:utf-8
+#创建支付基类与子类（支付宝与微信支付）
+class Payment(object):
+    def __init__(self):
+        pass
+    def give_money(self):
+        pass
+    def give_ok(self):
+        pass
+
+class alipay(Payment):
+    def __init__(self):
+        print('支付宝ing')
+    def give_money(self):
+        print('支付宝支付中')
+        print('...')
+
+    def give_ok(self):
+        print('支付宝支付成功')
+
+class wxpay(Payment):
+    def __init__(self):
+        print('微信ing')
+
+    def give_money(self):
+        print('微信支付中')
+        print('...')
+
+    def give_ok(self):
+        print('微信支付成功')
+
+#创建商店基类与子类（衣服商店与零食商店）
+class store(object):
+    def __init__(self):
+        pass
+    def get_money(self):
+        pass
+
+class clothesstore(store):
+    def __init__(self):
+        print "正在购买衣服，仅支持支付宝支付"
+    def get_money(self):
+        print "衣服费用已支付完成"
+
+class  snackstore(store):
+    def __init__(self):
+        print "正在购买零食，仅支持微信支付"
+    def get_money(self):
+        print "零食费用已支付完成"
+
+#抽象工厂
+class IFactory():
+    def Createpay(self):
+        pass
+    def Createstore(self):
+        pass
+
+#创建服装商店支付工厂
+class clothesFactory(IFactory):
+    def Createpay(self):
+        return alipay()
+    def Createstore(self):
+        return clothesstore()
+#创建零食商店支付工厂
+class snackFactory(IFactory):
+    def Createpay(self):
+        return wxpay()
+    def Createstore(self):
+        return snackstore()
+
+#党用户发生一个购买衣服支付时，则可以
+if __name__ == "__main__":
+    pay= clothesFactory()#创建支付宝支付
+    pay.Createpay()
+    pay.Createstore()
+    
+ 至此，我们以实例的方法，讲完了简单工厂，工厂，抽象工厂，总结一下。
+简单工厂模式：简单工厂的作用是实例化对象，而不需要客户了解这个对象属于哪个具体的子类。简单工厂实例化的类具有相同的接口或者基类，在子类比较固定并不需要
+扩展时，可以使用简单工厂。采用简单工厂的优点是可以使用户根据参数获得对应的类实例，避免了直接实例化类，降低了耦合性；缺点是可实例化的类型在编译期间已经
+被确定，如果增加新类型，则需要修改工厂，不符合OCP（开闭原则）的原则。
+工厂模式：定义一个用于创建对象的接口,让子类决定实例化哪一个类,工厂方法使一个类的实例化延时到其子类.工厂方法模式克服了简单工厂模式违背开放-封闭原则的缺
+点,又保持了封装对象创建过程的优点。
+抽象工厂模式：工厂方法模式的升级版本，他用来创建一组相关或者相互依赖的对象。他与工厂方法模式的区别就在于，工厂方法模式针对的是一个产品等级结构；而抽象
+工厂模式则是针对的多个产品等级结构。在编程中，通常一个产品结构，表现为一个接口或者抽象类，也就是说，工厂方法模式提供的所有产品都是衍生自同一个接口或抽
+象类，而抽象工厂模式所提供的产品则是衍生自不同的接口或抽象类。一个抽象工厂类，可以派生出多个具体工厂类。每个具体工厂类可以创建多个具体产品类的实例。
+
+
